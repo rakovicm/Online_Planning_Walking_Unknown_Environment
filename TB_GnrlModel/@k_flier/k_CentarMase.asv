@@ -1,0 +1,14 @@
+function [rcm Vcm] =k_CentarMase(a)
+%[rcm vcm]=k_CentarMase(flier)
+%  Ulazi
+%   flier - 
+rcm=[0;0;0];
+Vcm=[0;0;0];
+for i=1:a.N
+    rcm=rcm+a.rc(:,i,1)*a.ms(i);
+    Vcm=Vcm+a.v(:,i,1)*a.ms(i);
+end
+M=sum(a.ms(:));
+rcm=rcm/M;
+Vcm=Vcm/M;
+

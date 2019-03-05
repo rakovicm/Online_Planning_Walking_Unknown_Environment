@@ -1,0 +1,27 @@
+function iscrtajsim(fps,FileName,Output2)
+
+
+global Up t Fuks ZMPtr CMtr
+global XC YC XCL YCL XCR YCR XCPL YCPL XCPR YCPR TAC
+global segdkuk segdkol segdskz segdprst seglkuk seglkol seglskz seglprst 
+global segtrupx segtrupy segdrame segdlakat seglrame segllakat 
+global seglnoga segdnoga segtrup seglruka segdruka 
+
+    load(FileName)
+
+    %Inicijalizacija promenljivih
+    letac_motor_kontakti;
+
+    if(Output2~=0)
+         fig=gcf;
+         set(fig,'DoubleBuffer','on');
+         set(gcf,'NextPlot','replace','Visible','off');
+         mov = avifile(Output2);
+    end
+
+
+    zelj_p = zp(:,:);
+
+    ikraj = sum(qnew(3,:)>0);
+
+end

@@ -1,0 +1,41 @@
+function yn = rkode4(ti,yi,dy1i,dti,eqfun,varargin)
+% ORDINARY DIFFERENTIAL EQUATION SOLVER
+% makes one integration step using fourth-order Runge-Kutta formulae
+% Usage:	yn = rkode4(t,y,dy1,dt,eqfun[,divstep])
+%	yn	-	result, solution in the (n+1)-th point
+%	t	-	independent variable in the n-th point
+%	y	-	value of the function in the n-th point
+%	dy1	-	derivative of the function in the n-th point
+%	dt	-	integration step size
+%	eqfun	-	handle to the equation function
+%	divstep	-	optional parameter, if missing, considered 1
+%				the integration nterval will be divided internally
+%				to 'divstep' sub-intervals
+% eqfun form:
+% dy = eqfun(t,y)
+% Note: y, dy1 and yn can be N-element vectors
+%
+
+switch nargin
+case 5
+	d = 1;
+case 6
+	d = varargin{1};
+end
+dt = dti / d;
+
+y = yi;
+t = ti;s
+for i=1:d
+	if i==1
+		k1 = dt * dy1i;
+	else
+		k1 = dt * feval(eqfun,t,y);
+	end;
+	k2 = dt * feval(eqfun,t+dt/2,y+k1/2);
+	k3 = dt * feval(eqfun,t+dt/2,y+k2/2);
+	k4 = dt * feval(eqfun,t+dt,y+k3);
+	y = y + (k1+k4)/6 + (k2+k3)/3;
+	t = t + dt;
+end
+yn = y;

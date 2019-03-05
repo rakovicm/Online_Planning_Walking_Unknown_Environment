@@ -1,0 +1,21 @@
+function [Zx, Zy] = ZMP(F)
+% Finds the position of the ZMP in the contact plane
+% Contact plane : the plane formed by the axes Sx_Sy of the
+% functional coordinate system. The Fx, Fy and M3 components
+% of the reaction generalized forces are assumed to be
+% compenzated by friction.
+% Usage : [Zx, Zy] = ZMPpos(F)
+%
+load ('sile.mat');
+%size(F)
+% vector F : Fx Fy Fz M1 M2 M3. Which M is which is defined
+% by the contact object
+Fz = [zeros(1,101);zeros(1,101); F(3,:)];
+%size(Fz)
+Mr = [F(4:5,:); zeros(1,101)];
+for i=1:101
+ri = cross(Mr(:,i),Fz(:,i));
+ri = -ri / vmod(ri);
+R = ri * ( vmod(Mr) / abs(F(3)) );
+Zx = R(1);
+Zy = R(2);

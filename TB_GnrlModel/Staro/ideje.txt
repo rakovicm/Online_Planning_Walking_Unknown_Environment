@@ -1,0 +1,22 @@
+NOVE IDEJE KOJE BI SE MOGLE REALIZOVATI I TIME PROSIRITI MOGUCNOSTI I
+KVALITET OPSTEG MODELA DINAMIKE HUMANOIDNOG MEHANIZMA
+========================================================================
+
+1.
+U ovom obliku, kako je sada, metoda 'k_jakP' vraca Jakobijan i pridruzenu
+matricu koja povezuje brzine izabrane kontaktne tacke i koordinate
+mehanizma. Pomenuta brzina je izrazena u globalnim koordinatama sto je u
+redu, ali cesto treba dogadjaj u kontaktnoj tacki analizirati u pridruzenom
+s-koordinatnom sistemu. Trenutno se podatak Qtr koji predstavlja
+transformaciju koordinata iz s-koordinatnog u lokalni odgovarajuceg segmenta
+i ne koristi. Moglo bi da se uradi sledece:
+Umesto v = J * ddq + A, prostim mnozenjem sa B = inv(A(:,:,i) * Qtr) dobili
+bismo brzinu izrazenu u s-koordinatnom sistemu. Dakle
+B * v = B * J * ddq + B * A. Novi Jakobijan bi mogao biti: Jn = B * J, a
+pridruzena matrica An = B * A. Pomenuti A(:, :, i) je transformacija
+koordinata iz lokalnog sistema i-tog segmenta u globalni, a Qtr pomenuta
+lokalna za kontaktnu tacku.
+NAPOMENA: ovo je moguce za po jedan vektor - translatorna ili ugaona brzina,
+tako da se mora uraditi odvojeno za gornju i donju polovinu Jakobijana.
+
+------------------------------------------------------------------------

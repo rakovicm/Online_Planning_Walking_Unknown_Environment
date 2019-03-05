@@ -1,0 +1,20 @@
+[ZH Zh0]=k_calcZH(flier, ra);
+ZH=zeros(3,flier.N);
+Zh0=zeros(3,1);
+al=zeros(3,flier.N);
+bl=zeros(3,flier.N);
+for ln=1:flier.N
+    al(:,:)=a.alf(:,ln,:);
+    bl(:,:)=a.bet(:,ln,:);
+    gl=a.gam(:,ln);
+    dl=a.del(:,ln);
+    
+    AA=flier.A(:,:,ln);
+    alfmod=AA*flier.J(:,:,ln)*(AA')*al;
+    gammod=AA*flier.J(:,:,ln)*(AA')*gl+AA*cross(AA'*flier.omg(:,ln), flier.J(:,:,ln)*AA'*flier.omg(:,:,ln));
+    
+    rcnov=(flier.rc(:,ln)-ra)*ones(1,flier.N);
+    ZH=ZH-cross(rcnov,bl)*flier.ms(ln)-alfmod;
+    Zh0=Zh0+cross(rcnov,
+    
+end;

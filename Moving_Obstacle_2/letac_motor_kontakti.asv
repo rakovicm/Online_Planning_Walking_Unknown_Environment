@@ -1,0 +1,186 @@
+global  flier flier_m
+global PRO SKR
+global Lr Bc Jr Cm Ce Rr 
+global mi Kn Cn KK CC
+global CT
+global CTPROM
+global segdkuk segdkol segdskz segdprst seglkuk seglkol seglskz seglprst 
+global segtrupx segtrupy segdrame segdlakat seglrame segllakat 
+global seglnoga segdnoga segtrup seglruka segdruka 
+
+CT=zeros(12,1);
+CTPROM=CT;
+
+mi=0.8;
+Kn=686700/8;
+Cn=6867/6;
+KK=686700/8;
+CC=6867/6;
+
+%%%%%%%%%%% parametri motora
+Lr=0.0023;
+Bc=0.00923;
+Jr=73.9470;
+Cm=75.5;
+Ce=72.2;
+Rr=1.6;
+
+
+
+
+links=gen_links('anthr46ss.m');
+flier=k_flier(links);
+
+links_m=gen_links('anthr46ss_Lagani.m');
+flier_m = k_flier(links_m);
+
+N=flier.N;
+segdkuk = [7 8 9]';
+segdkol = [10]';
+segdskz = [11 12 13]';
+segdprst = [14]';
+
+seglkuk = [15 16 17]';
+seglskz = [19 20 21]';
+seglprst = [22]';
+seglkol = [18]';
+
+segtrupx = [24:2:30]';%42
+segtrupy = [23:2:29]';%43
+
+segtrupx2 = [32:2:42]';%42
+segtrupy2 = [31:2:43]';%43
+
+segdrame = [44 45 46]';
+segdlakat = [47];
+seglrame = [48 49 50]';
+segllakat = [51];
+
+seglnoga = [seglkuk;seglkol;seglskz;seglprst];
+segdnoga = [segdkuk;segdkol;segdskz;segdprst];
+segtrup = [segtrupx;segtrupy;segtrupx2;segtrupy2;];
+seglruka = [seglrame;segllakat];
+segdruka = [segdrame;segdlakat];
+
+seg=[ 6 1; 9 1; 10 1; 13 1; 14 1];
+seg=[seg; 6 2; 17 2; 18 2; 21 2; 22 2];
+seg=[seg; 6 3; 24 3; 26 3; 28 3; 30 3; 32 3; 34 3; 36 3; 38 3; 40 3; 42 3; 43 3;43 4];
+seg=[seg;  46 3; 47 3; 48 4];
+seg=[seg; 49 4; 50 4; 51 4];
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%    KONTAKTNE TACKE    %%%%%%%%%%%%%%%%%%%%
+%%%                                                         %%%        
+%%%                                           ^ X           %%%
+%%%                                           |             %%%
+%%%                     5 _______ 6         11|_______ 12   %%%
+%%%                      |       |            |       |     %%%
+%%% Y <________________ 3|_______|4__________9|_______|10   %%%
+%%%                      |       |            |       |     %%%
+%%%                      |levo   |            |desno  |     %%%    
+%%%                      |stopalo|            |stopalo|     %%%
+%%%                      |       |            |       |     %%%
+%%%                      |  x 14 |            |  x 15 |     %%%
+%%%                     1|_______|2          7|_______|8    %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%
+flier=k_addcontact(flier,  1, 21, [-0.112885  0.09  -0.041441],eye(3)); 
+flier=k_addcontact(flier,  2, 21, [-0.112885 -0.09  -0.041441],eye(3));
+flier=k_addcontact(flier,  3, 21, [ 0.082885  0.095  -0.041441],eye(3));
+flier=k_addcontact(flier,  4, 21, [ 0.082885 -0.095  -0.041441],eye(3));
+flier=k_addcontact(flier,  5, 22, [ 0.06      0.09   0       ],eye(3));
+flier=k_addcontact(flier,  6, 22, [ 0.06     -0.09   0       ],eye(3));
+%%%%%%%%%%%%%%%%%%%%%%
+flier=k_addcontact(flier,  7, 13, [-0.112885  0.09  -0.041441],eye(3)); 
+flier=k_addcontact(flier,  8, 13, [-0.112885 -0.09  -0.041441],eye(3));
+flier=k_addcontact(flier,  9, 13, [ 0.082885  0.095  -0.041441],eye(3));
+flier=k_addcontact(flier, 10, 13, [ 0.082885 -0.095  -0.041441],eye(3));
+flier=k_addcontact(flier, 11, 14, [ 0.06      0.09   0       ],eye(3));
+flier=k_addcontact(flier, 12, 14, [ 0.06     -0.09   0       ],eye(3));
+
+%bazni segment
+flier=k_addcontact(flier, 13, 6, [0 0 0],eye(3));
+
+%skocni zglob leve i desne noge respektivno
+flier=k_addcontact(flier, 14, 18, [0 0 -0.20955],eye(3));
+flier=k_addcontact(flier, 15, 10, [0 0 -0.20955],eye(3));
+
+%kuk leve i desne noge respektivno
+flier=k_addcontact(flier, 16, 15, [0  0  0],eye(3));
+flier=k_addcontact(flier, 17,  7, [0  0  0],eye(3));
+
+
+%peta
+flier=k_addcontact(flier,  18, 21, [-0.0550  -0.003  -0.041441],eye(3)); %-0.112885
+flier=k_addcontact(flier,  19, 13, [-0.0550  0.003  -0.041441],eye(3)); %-0.112885
+
+%rame
+flier=k_addcontact(flier,  20, 43, [0 0.1786 0.0313],eye(3)); %levo rame
+flier=k_addcontact(flier,  21, 43, [0 -0.1786 0.0313],eye(3)); %desno rame
+
+%ruke
+flier=k_addcontact(flier,  22, 47, [0 0 -0.222],eye(3)); %desna saka
+flier=k_addcontact(flier,  23, 51, [0 0 -0.222],eye(3)); %leva saka
+
+%trup
+flier=k_addcontact(flier,  24, 43, [0 0 0],eye(3)); 
+
+%prsti
+flier=k_addcontact(flier,  25, 22, [0.03 -0.003 0],eye(3)); 
+flier=k_addcontact(flier,  26, 14, [0.03  0.003 0],eye(3)); 
+
+%%%%%%%%%%%%%%%%%%%%%%
+flier_m=k_addcontact(flier_m,  1, 21, [-0.112885  0.09  -0.041441],eye(3)); 
+flier_m=k_addcontact(flier_m,  2, 21, [-0.112885 -0.09  -0.041441],eye(3));
+flier_m=k_addcontact(flier_m,  3, 21, [ 0.082885  0.095  -0.041441],eye(3));
+flier_m=k_addcontact(flier_m,  4, 21, [ 0.082885 -0.095  -0.041441],eye(3));
+flier_m=k_addcontact(flier_m,  5, 22, [ 0.06      0.09   0       ],eye(3));
+flier_m=k_addcontact(flier_m,  6, 22, [ 0.06     -0.09   0       ],eye(3));
+%%%%%%%%%%%%%%%%%%%%%%
+flier_m=k_addcontact(flier_m,  7, 13, [-0.112885  0.09  -0.041441],eye(3)); 
+flier_m=k_addcontact(flier_m,  8, 13, [-0.112885 -0.09  -0.041441],eye(3));
+flier_m=k_addcontact(flier_m,  9, 13, [ 0.082885  0.095  -0.041441],eye(3));
+flier_m=k_addcontact(flier_m, 10, 13, [ 0.082885 -0.095  -0.041441],eye(3));
+flier_m=k_addcontact(flier_m, 11, 14, [ 0.06      0.09   0       ],eye(3));
+flier_m=k_addcontact(flier_m, 12, 14, [ 0.06     -0.09   0       ],eye(3));
+
+% %bazni segment
+% flier_m=k_addcontact(flier_m, 13, 6, [0 0 0],eye(3));
+% 
+% %skocni zglob leve i desne noge respektivno
+% flier_m=k_addcontact(flier_m, 14, 18, [0 0 -0.20955],eye(3));
+% flier_m=k_addcontact(flier_m, 15, 10, [0 0 -0.20955],eye(3));
+% 
+% %kuk leve i desne noge respektivno
+% flier_m=k_addcontact(flier_m, 16, 15, [0  0  0],eye(3));
+% flier_m=k_addcontact(flier_m, 17,  7, [0  0  0],eye(3));
+% 
+% 
+% %peta
+% flier_m=k_addcontact(flier_m,  18, 21, [-0.0550  -0.003  -0.041441],eye(3)); %-0.112885
+% flier_m=k_addcontact(flier_m,  19, 13, [-0.0550  0.003  -0.041441],eye(3)); %-0.112885
+% 
+% %rame
+% flier_m=k_addcontact(flier_m,  20, 43, [0 0.1786 0.0313],eye(3)); %levo rame
+% flier_m=k_addcontact(flier_m,  21, 43, [0 -0.1786 0.0313],eye(3)); %desno rame
+% 
+% %ruke
+% flier_m=k_addcontact(flier_m,  22, 47, [0 0 -0.222],eye(3)); %desna saka
+% flier_m=k_addcontact(flier_m,  23, 51, [0 0 -0.222],eye(3)); %leva saka
+% 
+% %trup
+% flier=k_addcontact(flier_m,  24, 43, [0 0 0],eye(3)); 
+% 
+% %prsti
+% flier_m=k_addcontact(flier_m,  25, 22, [0.03 -0.003 0],eye(3)); 
+% flier_m=k_addcontact(flier_m,  26, 14, [0.03  0.003 0],eye(3)); 
+
+
+
+brojkontakata=12;
+
+SKR=[zeros(N-6,6) eye(N-6)];
+PRO=[zeros(6,N-6); eye(N-6)];
+mass=sum(flier.ms);
